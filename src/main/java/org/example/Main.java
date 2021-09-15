@@ -11,28 +11,37 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+        HttpClientService service = new HttpClientService();
         Response response = new Response();
-        try {
-            URL url = new URL("http://www.google.com");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        response = service.get("http://www.google.com",null);
+        System.out.println(response);
 
-            connection.setRequestMethod("GET");
-            Map<String, List<String>> map = connection.getHeaderFields();
-            if (connection.getResponseCode() == 200){
-                Map<String,String> map1 = new HashMap<>();
-                for (Map.Entry<String, List<String>> entry : map.entrySet()) {
-                    map1.put(entry.getKey(),entry.getValue().get(0));
-//                    System.out.println("Key : " + entry.getKey() + //получаем список заголовков
-//                            " ,Value : " + entry.getValue());
-                }
-                response.setStatusCode(connection.getResponseCode());
-                response.setStatusText(connection.getResponseMessage());
-                response.setHeaders(map1);  // Тут вот вопрос, вообще пока не понятно что делать.
-                                            //Список хидеров мы получаем в формате Map<String, List<String>>. Не уж то переделывать List<String> на String?
-                response.setPayload(null);
-                System.out.println(response);
 
-            }
+
+
+
+//        Response response = new Response();
+//        try {
+//            URL url = new URL("http://www.google.com");
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//
+//            connection.setRequestMethod("GET");
+//            Map<String, List<String>> map = connection.getHeaderFields();
+//            if (connection.getResponseCode() == 200){
+//                Map<String,String> map1 = new HashMap<>();
+//                for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+//                    map1.put(entry.getKey(),entry.getValue().get(0));
+////                    System.out.println("Key : " + entry.getKey() + //получаем список заголовков
+////                            " ,Value : " + entry.getValue());
+//                }
+//                response.setStatusCode(connection.getResponseCode());
+//                response.setStatusText(connection.getResponseMessage());
+//                response.setHeaders(map1);  // Тут вот вопрос, вообще пока не понятно что делать.
+//                                            //Список хидеров мы получаем в формате Map<String, List<String>>. Не уж то переделывать List<String> на String?
+//                response.setPayload(null);
+//                System.out.println(response);
+//
+//            }
 
 
 
@@ -54,9 +63,9 @@ public class Main {
 //                System.out.println(sc.nextLine());
 //            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
     }
