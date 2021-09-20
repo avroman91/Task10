@@ -9,7 +9,7 @@ import java.util.*;
 public class HttpClientService implements HttpClient {
 
 
-    private Response httpClient(String requestMethod, String url, Map<String, String> headers, byte[] payload) {
+    private Response connection(String requestMethod, String url, Map<String, String> headers, byte[] payload) {
         Response response = new Response();
         try {
             URL testUrl = new URL(url);
@@ -19,7 +19,10 @@ public class HttpClientService implements HttpClient {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
                 connection.setRequestProperty(entry.getKey(), entry.getValue());
             }
-            if (payload != null) connection.getOutputStream().write(payload);
+            if (payload != null) {
+                connection.getOutputStream().write(payload);
+                connection.getOutputStream().flush();
+            }
 
             Scanner sc = new Scanner(connection.getInputStream());
             StringBuilder sb = new StringBuilder();
@@ -47,37 +50,37 @@ public class HttpClientService implements HttpClient {
 
     @Override
     public Response get(String url, Map<String, String> headers) {
-        return httpClient("get", url, headers, null);
+        return connection("get", url, headers, null);
     }
 
     @Override
     public Response post(String url, Map<String, String> headers, byte[] payload) {
-        return httpClient("post", url, headers, payload);
+        return connection("post", url, headers, payload);
     }
 
     @Override
     public Response post(String url, Map<String, String> headers, String payload) {
-        return httpClient("post", url, headers, payload.getBytes(StandardCharsets.UTF_8));
+        return connection("post", url, headers, payload.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
     public Response put(String url, Map<String, String> headers, byte[] payload) {
-        return httpClient("put", url, headers, payload);
+        return connection("put", url, headers, payload);
     }
 
     @Override
     public Response put(String url, Map<String, String> headers, String payload) {
-        return httpClient("put", url, headers, payload.getBytes(StandardCharsets.UTF_8));
+        return connection("put", url, headers, payload.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
     public Response delete(String url, Map<String, String> headers, byte[] payload) {
-        return httpClient("delete", url, headers, payload);
+        return connection("delete", url, headers, payload);
     }
 
     @Override
     public Response delete(String url, Map<String, String> headers, String payload) {
-        return httpClient("delete", url, headers, payload.getBytes(StandardCharsets.UTF_8));
+        return connection("delete", url, headers, payload.getBytes(StandardCharsets.UTF_8));
     }
 
 
